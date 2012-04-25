@@ -1,0 +1,10 @@
+Available fields:
+{title} The title of this post
+{permalink} Permalink to this post 
+{date} date published 
+{id} index of post 
+{content} content of post 
+{prevurl} permalink of previous post 
+{prevtitle} title of previous post 
+{nexturl} permalink of next post 
+{nexttitle} title of next post
