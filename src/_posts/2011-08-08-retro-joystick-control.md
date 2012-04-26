@@ -9,7 +9,7 @@ types of joysticks with your microcontroller.
 Inside of the joystick, mounted at right angles are
 potentiometers, one for each axis:
 
-![Original joystick wiring.](DSCN0544-1024x768.jpg)
+![Original joystick wiring.](DSCN0544.jpg)
 
 <a name='more'></a>A potentiometer is a very basic electrical
 sensor. The voltage output of an angular potentiometer is directly
@@ -147,7 +147,7 @@ It makes sense that joysticks would use potentiometers to determine
 its position. However, the potentiometers are not hooked up in the
 standard way:
 
-![Closeup of Joystick Potentiometer](DSCN0551-1024x768.jpg)
+![Closeup of Joystick Potentiometer](DSCN0551.jpg)
 
 In the above picture, you will notice that only two of the terminals
 of the potentiometer are hooked up. In this arrangement, the

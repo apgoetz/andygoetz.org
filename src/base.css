@@ -1,3 +1,7 @@
+p {
+    font-family	"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: 300;
+} 
 .msg
 {
     margin-top:30px;
@@ -50,6 +54,7 @@ a:hover{ text-decoration: underline; border-style:none; }
  
     font-size:20pt;
     margin: 0px;
+    font-weight: 500;
 }
 
 .msgcontent
@@ -149,7 +154,6 @@ a:hover{ text-decoration: underline; border-style:none; }
 }
 #body
 {
-    font-family:helvetica, arial, sans-serif;
     height:100%;
 }
 #header
@@ -161,6 +165,13 @@ a:hover{ text-decoration: underline; border-style:none; }
     margin: 0 auto;
     clear: both;
     background-color: #336699;
+}
+
+
+#header img
+{
+    
+    float: right;
 }
 #footer
 {
@@ -180,6 +191,11 @@ a:hover{ text-decoration: underline; border-style:none; }
     width:22%;
     margin-top: 50px;
 }
+.gref a:link{color: grey; text-decoration: none;}
+.gref a:visited{color: grey; text-decoration: none;}
+.gref a:active{color: grey; text-decoration: none;}
+.gref a:hover{color: grey; text-decoration: underline;}
+
 #main
 {
     font-family: helvetica,arial, sans-serif;

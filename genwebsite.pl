@@ -8,13 +8,14 @@ use File::Copy;
 use File::Slurp qw(read_file);
 use Date::Calc qw(Date_to_Text);
 use Clone qw(clone);
+use Image::Magick;
 #Configuration Variables
 my $MD_GENERATOR='markdown_py';
 my $MD_ARGS='-x mathjax';
-my $WEBSITE = '/home/agoetz/Dropbox/website/test-website';
-#my $WEBSITE = 'www.andygoetz.org';
-my $URI_SCHEME='file://';
-#my $URI_SCHEME='http://';
+#my $WEBSITE = '/home/agoetz/Dropbox/website/test-website';
+my $WEBSITE = 'www.andygoetz.org';
+#my $URI_SCHEME='file://';
+my $URI_SCHEME='http://';
 my $SITE_TILE = "Andy Goetz";
 my $POST_TEMPLATE_FILE='_post.html';
 my $POST_PAGE_TEMPLATE_FILE='_postpage.html';
@@ -27,6 +28,7 @@ my $post_template;
 my $base_template;
 my $page_template;
 my $post_page_template;
+my $MAGICK;
 
 ########################################
 #Subroutines
@@ -80,7 +82,25 @@ sub verify_and_create_dirs {
 
 sub copy_file
 {
-    
+    my ($src, $dest) = @_;
+
+    if ($src =~ /\.$IMAGE_REGEX$/)
+    {
+
+	$MAGICK->Read($src);
+	my $width = $MAGICK->Get('columns');
+	my $height = $MAGICK->Get('rows');
+	if($width > $MAX_IMAGE_WIDTH)
+	{
+	    my $newheight = $height * $MAX_IMAGE_WIDTH / $width;	 
+	    $MAGICK->Resize(width =>$MAX_IMAGE_WIDTH, height=>$newheight);
+	    $MAGICK->Write($dest);
+	    @$MAGICK = ();
+	    return;
+	}
+	@$MAGICK = ();
+    }
+    copy($src, $dest);
 }
 
 sub copy_r
@@ -88,7 +108,7 @@ sub copy_r
 
     my $srcdir = shift;
     my $destdir = shift;
-    my $regex = shift;    
+    my $regex = shift;
     make_path($destdir);
 
     opendir(my $dir, $srcdir) or die("could not open dir\n");
@@ -108,7 +128,7 @@ sub copy_r
 	    else
 	    {
 		print "Copying $srcdir/$_ to $destdir/$_\n";
-		copy("$srcdir/$_", "$destdir");
+		copy_file("$srcdir/$_", "$destdir/$_");
 	    }
 	}
 
@@ -348,7 +368,7 @@ $post_template = read_file("$inputdir/_templates/$POST_TEMPLATE_FILE");
 $base_template = read_file("$inputdir/_templates/$BASE_TEMPLATE_FILE");
 $page_template = read_file("$inputdir/_templates/$PAGE_TEMPLATE_FILE");
 $post_page_template = read_file("$inputdir/_templates/$POST_PAGE_TEMPLATE_FILE");
-
+$MAGICK = Image::Magick->new();
 
 #copy simple files over
 copy_r($inputdir, $outputdir, '(^[\._]|~$)');

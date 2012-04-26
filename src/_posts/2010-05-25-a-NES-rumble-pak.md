@@ -52,7 +52,7 @@ the controller when the pack is rumbling. On the plus side however,
 you have a vibrating controller!  Here's a picture of the circuitry
 crammed into an NES controller:
 
-![Implemented Rumble Pak](DSCN0156-1024x768.jpg)
+![Implemented Rumble Pak](DSCN0156.jpg)
 
 The code for the robot was written in C for an AtTiny26. You can find
 an example implementation [here](nessample.c).
