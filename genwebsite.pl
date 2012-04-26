@@ -12,9 +12,10 @@ use Image::Magick;
 #Configuration Variables
 my $MD_GENERATOR='markdown_py';
 my $MD_ARGS='-x mathjax';
-#my $WEBSITE = '/home/agoetz/Dropbox/website/test-website';
+
+
 my $WEBSITE = 'www.andygoetz.org';
-#my $URI_SCHEME='file://';
+
 my $URI_SCHEME='http://';
 my $SITE_TILE = "Andy Goetz";
 my $POST_TEMPLATE_FILE='_post.html';
@@ -44,7 +45,7 @@ sub get_permalink
 }
 
 sub print_help {
-    print "Usage: genwebsite.pl inputdir outputdir\n";
+    print "Usage: [-m] genwebsite.pl inputdir outputdir\n";
     return;
 }
 
@@ -354,13 +355,47 @@ sub print_index_pg
 ########################################
 #Script Starts Here
 
-if(scalar @ARGV != 2)
+if(scalar @ARGV < 2)
 {
     print_help();
     exit(-1);
 }
-my $inputdir = $ARGV[0];
-my $outputdir = $ARGV[1];
+
+my $inputdir = '';
+my $outputdir = '';
+my $mock = '';
+foreach(@ARGV)
+{
+    if(/^-+m/)
+    {
+	$mock = 'yes';
+    }
+    elsif($inputdir eq '')
+    {
+	$inputdir = $_;
+    }
+    elsif($outputdir eq '')
+    {
+	$outputdir = $_;
+    }
+    else
+    {
+	print_help();
+	exit(-1);
+    }
+}
+
+unless ($mock eq '')
+{
+    print "testing website...\n";
+    $URI_SCHEME = 'file://';
+    $WEBSITE = $outputdir;
+}
+else
+{
+    print "deploying website...\n";
+}
+
 
 exit -1 if(verify_and_create_dirs($inputdir, $outputdir));
 
