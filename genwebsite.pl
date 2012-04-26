@@ -346,6 +346,7 @@ sub print_index_pg
     }
     
     my $finished_page = apply_base_template('Index', $index_pg);
+    print "writing index page: $outputdir/index.html\n";
     open my $fh, ">", "$outputdir/index.html";
     print $fh $finished_page;    
     close $fh;
@@ -414,11 +415,13 @@ my $postref = get_posts("$inputdir/_posts");
 
 my $htmlposts = format_posts($postref);
 
+print_index_pg($postref, $outputdir);
+
 print_post_pages($postref, $htmlposts, $outputdir);
 
 print_pages($postref, "$inputdir/_pages",$outputdir);
 
-print_index_pg($postref, $outputdir);
+
 
 # print archive page
 my $archive_fmt = '';
@@ -426,4 +429,7 @@ for(my $i = scalar @{$postref}; $i > 0; $i--)
 {
     $archive_fmt .= "<p><b><a href='{permalink}[-$i]'>{date}[-$i] - {title}[-$i]</a></b></p>";
 }
+
+print "writing out archive: $outputdir/post-archive.html\n";
+
 print_page($postref, "$outputdir/post-archive.html", $archive_fmt, get_permalink('post-archive.html'), 'Post Archive');
