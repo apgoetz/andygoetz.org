@@ -426,9 +426,10 @@ print_pages($postref, "$inputdir/_pages",$outputdir);
 
 # print archive page
 my $archive_fmt = '';
-for(my $i = scalar @{$postref}; $i > 0; $i--)
+my $numposts = scalar @{$postref};
+for(my $i = 1; $i <= $numposts; $i++)
 {
-    $archive_fmt .= "<p><b><a href='{permalink}[-$i]'>{date}[-$i] - {title}[-$i]</a></b></p>";
+    $archive_fmt .= "<p><a href='{permalink}[-$i]'> {title}[-$i]</a> - Posted {date}[-$i]</p>";
 }
 
 print "writing out archive: $outputdir/post-archive.html\n";
