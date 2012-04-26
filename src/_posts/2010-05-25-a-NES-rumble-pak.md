@@ -11,7 +11,7 @@ record button combinations and sequences, then play them back later.
 
 ![tekkit](tekkit.jpg)
 
-Boy did we learn a lesson about procrastination. We started working 24
+<a name='more'></a>Boy did we learn a lesson about procrastination. We started working 24
 hours before the project was due, and only ended up getting it
 finished at 2 in the morning. We ended up having to scale back our
 plans. But not too much. What we built still is awesome.

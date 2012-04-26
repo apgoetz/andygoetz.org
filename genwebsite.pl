@@ -7,22 +7,27 @@ use File::Path qw(make_path remove_tree);
 use File::Copy;
 use File::Slurp qw(read_file);
 use Date::Calc qw(Date_to_Text);
+use Clone qw(clone);
 #Configuration Variables
 my $MD_GENERATOR='markdown_py';
 my $MD_ARGS='-x mathjax';
 my $WEBSITE = '/home/agoetz/Dropbox/website/test-website';
-#my $WEBSITE = '';
+#my $WEBSITE = 'www.andygoetz.org';
 my $URI_SCHEME='file://';
+#my $URI_SCHEME='http://';
 my $SITE_TILE = "Andy Goetz";
 my $POST_TEMPLATE_FILE='_post.html';
 my $POST_PAGE_TEMPLATE_FILE='_postpage.html';
 my $PAGE_TEMPLATE_FILE='_page.html';
 my $BASE_TEMPLATE_FILE='_base.html';
 my $MAX_FRONT = 5;
+my $MAX_IMAGE_WIDTH = 600;
+my $IMAGE_REGEX = '(jpg|jpeg|png|gif)';
 my $post_template;
 my $base_template;
 my $page_template;
 my $post_page_template;
+
 ########################################
 #Subroutines
 
@@ -67,14 +72,15 @@ sub verify_and_create_dirs {
 	print "inputdir does not exist\n";
 	return 1;
     }
-    if(-d $outputdir)
-    {
-	remove_tree($outputdir);
-    }
     
-    make_path($outputdir);
+    make_path($outputdir) unless (-d $outputdir);
     
     return 0;
+}
+
+sub copy_file
+{
+    
 }
 
 sub copy_r
@@ -102,7 +108,7 @@ sub copy_r
 	    else
 	    {
 		print "Copying $srcdir/$_ to $destdir/$_\n";
-		copy("$srcdir/$_", "$destdir/$_");
+		copy("$srcdir/$_", "$destdir");
 	    }
 	}
 
@@ -189,7 +195,6 @@ sub format_post
     
     while (my ($key, $value) = each %{$post})
     {
-#	$fmtd_post =~ s/{$key}\[(-?\d+)\]/get_delta_value($postref, $key, $id, $1)/eg;
 	$fmtd_post =~ s/{$key}/$value/g;
     }
 
@@ -295,11 +300,24 @@ sub print_pages
 sub print_index_pg
 {
 # print index page
-    my $htmlposts = shift;
+    my $postary = clone (shift);
     my $outputdir = shift;
-    my $index_pg = '';
-    my $numposts = scalar @{$htmlposts};
+    
+    my $numposts = scalar @{$postary};
     my $numshow = $MAX_FRONT < $numposts ? $MAX_FRONT : $numposts;
+    my @newary;
+
+    for(my $i = 0; $i < $numshow; $i++)
+    {
+	my $permalink = $postary->[$i]->{'permalink'};
+	my $content = $postary->[$i]->{'content'};
+	$content = (split /<a *name=['"]more['"] *> *<\/ *a *>/i, $content)[0];
+	$content .= "<a class='more' href='$permalink#more'>more...</a>";
+	push (@newary, $postary->[$i]);
+	$newary[$i]->{'content'} = $content;
+    }
+    my $htmlposts = format_posts(\@newary);
+    my $index_pg = '';
     for(my $i = 0; $i < $numshow; $i++)
     {
 	my $index = $numposts - 1 - $i;
@@ -310,6 +328,7 @@ sub print_index_pg
     open my $fh, ">", "$outputdir/index.html";
     print $fh $finished_page;    
     close $fh;
+
 
 }
 ########################################
@@ -344,7 +363,7 @@ print_post_pages($postref, $htmlposts, $outputdir);
 
 print_pages($postref, "$inputdir/_pages",$outputdir);
 
-print_index_pg($htmlposts, $outputdir);
+print_index_pg($postref, $outputdir);
 
 # print archive page
 my $archive_fmt = '';

@@ -11,10 +11,10 @@ potentiometers, one for each axis:
 
 ![Original joystick wiring.](DSCN0544-1024x768.jpg)
 
-A potentiometer is a very basic electrical sensor. The voltage output
-of an angular potentiometer is directly proportional to the angle of
-its shaft relative to its case. The symbol for a potentiometer looks
-like this:
+<a name='more'></a>A potentiometer is a very basic electrical
+sensor. The voltage output of an angular potentiometer is directly
+proportional to the angle of its shaft relative to its case. The
+symbol for a potentiometer looks like this:
 
 ![Standard Potentionmeter Symbol](standardpot.png)
 

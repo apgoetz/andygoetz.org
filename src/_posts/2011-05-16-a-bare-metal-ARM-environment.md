@@ -9,7 +9,7 @@ I decided to implement my solutions in C to provide more of a
 challenge. In order to do this, I needed to set up a development
 environment to cross-compile C code for the PXA270.
 
-The development boards we were using ran a bootloader known as
+<a name='more'></a>The development boards we were using ran a bootloader known as
 [RedBoot](http://www.cygwin.com/redboot/). This made it easy to load
 code and have it run as close to the hardware as possible, while still
 allowing for the niceties of debuggers. One can even single-step
