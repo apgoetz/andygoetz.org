@@ -28,22 +28,18 @@ As the angle of the potentiometer changes relative to its case, the
 resistance of the two resistors changes according to the following
 function:
 
-<div>
-\begin{aligned}
-R_1 =R_{max}-k\theta \quad &amp; \quad R_2 = k\theta
-\end{aligned}
-</div>
+$$ \begin{aligned}
+R_1 =R_{max}-k\theta \quad & \quad R_2 = k\theta
+\end{aligned} $$
 
 Where $R_1$ and $R_2$ correspond to the resistors in the above
 equivalent circuit, $R_{max}$ is the maximum resistance of the
 potentiometer, $\theta$ is the current angle of the potentiometer,
 and k is a constant corresponding to:
 
-<div>
-\[
+$$
 k=\frac{R_{max}}{\theta{}_{max}}
-\]
-</div>
+$$
 
 Where $R_{max}$ is the aforementioned maximum resistance and,
 $\theta_{max}$ is the maximum angle of the potentiometer. Using this
@@ -54,20 +50,18 @@ According  to  Digikey,  this  potentiometer  has  a  rotation  radius
 $\theta_{max}$ of 270 degrees.  It also has a resistance $R_{max}$
 of 100,000 ohms. This means it has a $k$ value of:
 
-<div>
-\[
+$$
 k = \frac{R_{max}}{\theta_{max}} = \frac{100000}{270^\circ} \approx 370.4
-\]
-</div>
+$$
 Since the values of these resistors change depending on the current
 angle of the potentiometer, it would make sense to rewrite them as
 functions:
 
-<div>
+$$
 \begin{aligned}
-r_1(\theta) =R_{max}-k\theta \quad &amp; \quad r_2(\theta) = k\theta
+r_1(\theta) =R_{max}-k\theta \quad & \quad r_2(\theta) = k\theta
 \end{aligned}
-</div>
+$$
 
 [Ohm's Law](http://en.wikipedia.org/wiki/Ohm%27s_law) says that
 voltage is equal to current times resistance. If you were to connect a
@@ -78,22 +72,22 @@ potentiometer:
 
 The current, $I_{pot}$ through $R_1$ and $R_2$  can be found:
 
-<div>
+$$
 \begin{aligned}
-V &amp; = &amp; IR \\
-I &amp; = &amp; \frac{V}{R} \\
-I_{pot} &amp; = &amp; \frac{V_{src}}{R_{pot}}
+V & = IR \\
+I & = \frac{V}{R} \\
+I_{pot} & = \frac{V_{src}}{R_{pot}}
 \end{aligned}
-</div>
+$$
 
 Since the two resistor halves of the potentiometer are in series,
 their resistance adds:
 
-<div>\[ R_{pot} = r_1(\theta)+r_2(\theta) \]</div>
+$$ R_{pot} = r_1(\theta)+r_2(\theta) $$
 
 This gives us
 
-<div>\[ I_{pot} = \frac{V_{src}}{r_1(\theta)+r_2(\theta)} \]</div>
+$$ I_{pot} = \frac{V_{src}}{r_1(\theta)+r_2(\theta)} $$
 
 If you were to insert a miniature current sensor right into the middle
 of the potentiometer, this is the current that it would
@@ -105,22 +99,22 @@ If we say that the negative terminal of the voltage source has a
 voltage of zero volts, then the voltage at the middle of the
 potentiometer is equal to the voltage across $R_2$:
 
-<div>\[ V_{pot} = V_2 \]</div>
+$$ V_{pot} = V_2 $$
 
 How do we find the voltage across $V_2$? We use Ohm's Law again:
 
-<div>
+$$
 \begin{aligned}
-V &amp; = &amp; IR \\
-V_2 &amp; = &amp; I_{pot} \cdot R_2 \\
-V_2 &amp; = &amp; \frac{V_{src}}{r_1(\theta)+r_2(\theta)} \cdot r_2(\theta) \\
-V_2 &amp; = &amp; V_{src} \cdot \frac{k\theta}{R_{max}-k\theta + k\theta} \\
-V_2 &amp; = &amp; V_{src} \cdot k \cdot \frac{\theta}{R_{max}} \\
-V_2 &amp; = &amp; V_{src} \cdot \frac{R_{max}}{\theta_{max}} \cdot \frac{\theta}{R_{max}} \\
-V_2 &amp; = &amp; V_{src} \cdot \frac{\theta}{\theta_{max}} \\
-V_{pot} &amp; = &amp; V_{src} \cdot \frac{\theta}{\theta_{max}}
+V & = IR \\
+V_2 & = I_{pot} \cdot R_2 \\
+V_2 & = \frac{V_{src}}{r_1(\theta)+r_2(\theta)} \cdot r_2(\theta) \\
+V_2 & = V_{src} \cdot \frac{k\theta}{R_{max}-k\theta + k\theta} \\
+V_2 & = V_{src} \cdot k \cdot \frac{\theta}{R_{max}} \\
+V_2 & = V_{src} \cdot \frac{R_{max}}{\theta_{max}} \cdot \frac{\theta}{R_{max}} \\
+V_2 & = V_{src} \cdot \frac{\theta}{\theta_{max}} \\
+V_{pot} & = V_{src} \cdot \frac{\theta}{\theta_{max}}
 \end{aligned}
-</div>
+$$
 
 In other words, the voltage outputted by the potentiometer is directly
 proportional to the angle of the potentiometer. This is useful. It
@@ -132,14 +126,14 @@ is connected to your microcontroller. Assume the source voltage for
 the potentiometer is 5 volts. If you read 3.7 volts on the
 potentiometer, you can easily calculate its angle:
 
-<div>
+$$
 \begin{aligned}
-V_{pot} &amp; = &amp; V_{src} \cdot \frac{\theta}{\theta_{max}} \\
-\theta &amp; = &amp; \frac{V_{pot}}{V_{src}} \cdot \theta_{max} \\
-\theta &amp; = &amp; \frac{3.7}{5} \cdot 270^\circ \\
-\theta &amp; = &amp; 199.8^\circ
+V_{pot} & = V_{src} \cdot \frac{\theta}{\theta_{max}} \\
+\theta & = \frac{V_{pot}}{V_{src}} \cdot \theta_{max} \\
+\theta & = \frac{3.7}{5} \cdot 270^\circ \\
+\theta & = 199.8^\circ
 \end{aligned}
-</div>
+$$
 
 The potentiometer must be at an angle of approximately 200 degrees.
 
@@ -183,24 +177,24 @@ constant. To find the voltage that would be seen by a microcontroller,
 we again need to calculate the current through the joystick resistor,
 and the other resistor:
 
-<div>
+$$
 \begin{aligned}
-V &amp; = &amp; IR \\
-I &amp; = &amp; \frac{V}{R} \\
-I_{pot} &amp; = &amp; \frac{5}{R_{pot} + R_{vd}}
+V & = IR \\
+I & = \frac{V}{R} \\
+I_{pot} & = \frac{5}{R_{pot} + R_{vd}}
 \end{aligned}
-</div>
+$$
 
 Once we have an equation for $I_{pot}$, we can easily find an
 equation for $V_\mu$:
 
-<div>
+$$
 \begin{aligned}
-V &amp; = &amp; IR \\
-V_\mu &amp; = &amp; I{pot} \cdot R_{vd} \\
-V_\mu &amp; = &amp; \frac{5 R_{vd}}{R_{pot}+R_{vd}}
+V & = IR \\
+V_\mu & = I{pot} \cdot R_{vd} \\
+V_\mu & = \frac{5 R_{vd}}{R_{pot}+R_{vd}}
 \end{aligned}
-</div>
+$$
 
 Assuming that the range of the potentiometer is from 0 ohms to 100
 ohms, we can see that this function is not linear. As the resistance
