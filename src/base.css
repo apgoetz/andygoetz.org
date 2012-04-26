@@ -32,10 +32,10 @@ p {
     margin-bottom:-20px;
     font-style: italic;
 }
-a:link{ text-decoration: none; border-style:none;}
-a:visited{ text-decoration: none; border-style:none;}
-a:active{ text-decoration: none; border-style:none;}
-a:hover{ text-decoration: underline; border-style:none; }
+a:link{color: #336699; text-decoration: none; border-style:none;}
+a:visited{color: #336699; text-decoration: none; border-style:none;}
+a:active{color: #336699; text-decoration: none; border-style:none;}
+a:hover{color: #336699; text-decoration: underline; border-style:none; }
 .bignum
 {
     color: #EEEEEE;
