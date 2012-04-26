@@ -333,7 +333,7 @@ sub print_index_pg
 	my $permalink = $postary->[$i]->{'permalink'};
 	my $content = $postary->[$i]->{'content'};
 	$content = (split /<a *name=['"]more['"] *> *<\/ *a *>/i, $content)[0];
-	$content .= "<a class='more' href='$permalink#more'>more...</a>";
+	$content .= "<a class='more postfooter' href='$permalink#more'>more...</a>";	
 	push (@newary, $postary->[$i]);
 	$newary[$i]->{'content'} = $content;
     }
@@ -343,6 +343,7 @@ sub print_index_pg
     {
 	my $index = $numposts - 1 - $i;
 	$index_pg .= $htmlposts->[$index];
+
     }
     
     my $finished_page = apply_base_template('Index', $index_pg);
