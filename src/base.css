@@ -61,6 +61,8 @@ a:active{text-decoration: none; border-style:none;}
 a:hover{text-decoration: underline; border-style:none; }
 .bignum
 {
+    margin-top: -10px;
+    margin-right: 25px;
     color: #EEEEEE;
     float: right;
     font-size: 300%;
@@ -183,6 +185,7 @@ p
     
 }
 body {
+    background: lightgray;
     margin:0;
 }
 #header
@@ -201,24 +204,24 @@ body {
 {
     font-family: Georgia, Seriff;
     text-align:center;
-    height: 100px;
+    height: 100px;   
     float:right;
-    width:76%;
+    width:100%;
 
 }
 #sidebar
 {
     font-family: Georgia, Seriff;
-    float:left;
-    margin-left:5px;
-    width:22%;
+    float:right;
+    width:30%;
+    margin-right: 20px;
     margin-top: 15px;
     padding-top:15px;
-    padding-right: 15px;
+    padding-left: 15px;
     padding-bottom: 15px;
-    border-left: 0px;
+    border-right: 0px;
     border-bottom: 0px;
-    border-right: 5px;
+    border-left: 5px;
     border-top: 0px;
     border-style: double;
 }
@@ -231,17 +234,27 @@ body {
 {
     font-family: Georgia, Seriff;
     font-size:16pt;
-    float:right;
-    width:73%;
+    float:left;
+    width:65%;
 
     
 }
 
+#asdf
+{
+    background-color: white;
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+}
 .pagewidth
 {
     max-width:960px;
     margin-left: auto;
     margin-right: auto;
+
+
+
 }
 
 .postfooter
