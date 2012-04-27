@@ -1,8 +1,32 @@
 p {
-    /* font-family	"Helvetica Neue",Helvetica,Arial,sans-serif; */
     font-family: Georgia, Seriff;
     font-weight: 300;
-} 
+    color: black;
+    background: white;
+}
+
+b {
+    font-weight: 600;
+}
+/* psu green #566E10 */
+ 
+.color-green {
+    color: #566E10;
+    background-color: #566E10;
+    border-color: #566E10;
+}
+
+.color-brown {
+    color: #A33F1F;
+}
+
+a {
+    color: #A33F1F;
+    border-color: #A33F1F;
+    
+}
+
+
 .msg
 {
     margin-bottom:20px;
@@ -11,12 +35,11 @@ p {
 .msgbody
 {
     font-size: 12pt;
-
     margin-bottom:5px;
-    padding: 5px 50px;
+    padding: 5px 10px;
     clear: both;
-    /* padding-bottom: 20px; */
 }
+
 
 
 .more
@@ -32,10 +55,10 @@ p {
     margin-bottom:-20px;
     font-style: italic;
 }
-a:link{color: #336699; text-decoration: none; border-style:none;}
-a:visited{color: #336699; text-decoration: none; border-style:none;}
-a:active{color: #336699; text-decoration: none; border-style:none;}
-a:hover{color: #336699; text-decoration: underline; border-style:none; }
+a:link{ text-decoration: none; border-style:none;}
+a:visited{text-decoration: none; border-style:none;}
+a:active{text-decoration: none; border-style:none;}
+a:hover{text-decoration: underline; border-style:none; }
 .bignum
 {
     color: #EEEEEE;
@@ -87,29 +110,23 @@ p
 
 .msgtitle A:link 
 {
-    color: #336699;
     text-decoration: none;  
     border-bottom: none;
 }
 .msgtitle A:visited 
 {
-    color: #336699;
     text-decoration: none;
     border-bottom: none;
 }
 .msgtitle A:active 
 {
-    color: #DDDDFF;
-    background: #336699;
     border-bottom: none;
-/*     text-decoration: none; */
+    text-decoration: underline;
 }
 .msgtitle A:hover 
 {
-    color: #DDDDFF;
-    background: #336699;
     border-bottom: none;
-/*     text-decoration: underline; */
+    text-decoration: underline;
 }
 .tags
 {
@@ -128,19 +145,19 @@ p
     font-size:300%;
     font-family: Georgia, Seriff;
     font-weight: 100;
-    width: 35%;
-
-    vertical-align:middle;
-
+    margin:0;
+    vertical-align:bottom;
 }
 .subtitle
 {
 
-    vertical-align:middle;
+    vertical-align:bottom;
+    padding-bottom: 5px;
     color: #DDDDDD;
     font-size: 150%;
     font-family: Georgia, Seriff;
     font-weight: 100;
+    margin: 0;
 /*    margin-top: 50px;*/
 
     width: 60%;
@@ -165,9 +182,8 @@ p
     
     
 }
-#body
-{
-    height:100%;
+body {
+    margin:0;
 }
 #header
 {
@@ -175,23 +191,16 @@ p
     padding-left: 50px;
     padding-top:20px;
     padding-bottom: 20px;
-
+    left: 0px;
+    right: 0px;
     clear: both;
-    background-color: #336699;
 }
 
 
-#header img
-{
-    
-    float: right;
-}
 #footer
 {
     font-family: Georgia, Seriff;
-    /* font-family:helvetica, arial, sans-serif; */
     text-align:center;
-    /* clear:both; */
     height: 100px;
     float:right;
     width:76%;
@@ -200,19 +209,17 @@ p
 #sidebar
 {
     font-family: Georgia, Seriff;
-    /* font-family: helvetica,arial, sans-serif; */
     float:left;
     margin-left:5px;
     width:22%;
-    margin-top: 25px;
-    padding-top:25px;
-    padding-right: 5px;
-    padding-bottom: 25px;
+    margin-top: 15px;
+    padding-top:15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
     border-left: 0px;
     border-bottom: 0px;
     border-right: 5px;
     border-top: 0px;
-    border-color: #336699;
     border-style: double;
 }
 .gref a:link{color: grey; text-decoration: none;}
@@ -223,17 +230,16 @@ p
 #main
 {
     font-family: Georgia, Seriff;
-    /* font-family: helvetica,arial, sans-serif; */
     font-size:16pt;
     float:right;
-    width:76%;
+    width:73%;
 
     
 }
 
-#container
+.pagewidth
 {
-    max-width:960;
+    max-width:960px;
     margin-left: auto;
     margin-right: auto;
 }
