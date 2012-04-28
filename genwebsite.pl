@@ -333,7 +333,11 @@ sub print_index_pg
 	my $permalink = $postary->[$i]->{'permalink'};
 	my $content = $postary->[$i]->{'content'};
 	$content = (split /<a *name=['"]more['"] *> *<\/ *a *>/i, $content)[0];
-	$content .= "</p><a class='more postfooter' href='$permalink#more'>more...</a>";	
+
+	my $open_count =()= $content =~ /<\w*p\w*>/;
+	my $closed_count =()= $content =~ /<\\\w*p\w*>/;
+	$content .= '</p>' if ($open_count != $closed_count);
+	$content .= "<a class='more postfooter' href='$permalink#more'>more...</a>";	
 	push (@newary, $postary->[$i]);
 	$newary[$i]->{'content'} = $content;
     }
