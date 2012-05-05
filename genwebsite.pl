@@ -9,15 +9,17 @@ use File::Slurp qw(read_file);
 use Date::Calc qw(Date_to_Text);
 use Clone qw(clone);
 use Image::Magick;
+use XML::Atom::SimpleFeed;
+use DateTime;
 #Configuration Variables
 my $MD_GENERATOR='markdown_py';
 my $MD_ARGS='-x mathjax';
-
+my $CURTIME;
 
 my $WEBSITE = 'www.andygoetz.org';
-
+my $AUTHOR = "Andy Goetz";
 my $URI_SCHEME='http://';
-my $SITE_TILE = "Andy Goetz";
+my $SITE_TITLE = "Andy Goetz";
 my $POST_TEMPLATE_FILE='_post.html';
 my $POST_PAGE_TEMPLATE_FILE='_postpage.html';
 my $PAGE_TEMPLATE_FILE='_page.html';
@@ -167,6 +169,7 @@ sub get_posts
 			       'id' => $index++,
 			       'date' => $date,
 			       'title' => $title,
+			       'rawdate' => $rawdate,
 			       'filename' => $filename,
 			       'permalink' => $permalink,			       
 	    };
@@ -318,12 +321,9 @@ sub print_pages
     
 }
 
-sub print_index_pg
+sub get_post_headers
 {
-# print index page
-    my $postary = clone (shift);
-    my $outputdir = shift;
-    
+    my $postary = clone (shift);    
     my $numposts = scalar @{$postary};
     my $numshow = $MAX_FRONT < $numposts ? $MAX_FRONT : $numposts;
     my @newary;
@@ -341,12 +341,24 @@ sub print_index_pg
 	push (@newary, $postary->[$i]);
 	$newary[$i]->{'content'} = $content;
     }
-    my $htmlposts = format_posts(\@newary);
+
+    return \@newary;
+
+}
+
+sub print_index_pg
+{
+# print index page
+    my $postary = shift;
+    my $outputdir = shift;
     my $index_pg = '';
-    for(my $i = 0; $i < $numshow; $i++)
+    my $shortposts = format_posts(get_post_headers($postary));
+
+    my $numposts = scalar @{$shortposts};
+    for(my $i = 0; $i < $numposts; $i++)
     {
 	my $index = $numposts - 1 - $i;
-	$index_pg .= $htmlposts->[$index];
+	$index_pg .= $shortposts->[$index];
 
     }
     
@@ -358,6 +370,52 @@ sub print_index_pg
 
 
 }
+
+sub make_feed 
+{
+    my $headers = get_post_headers(shift);    
+    my $outputdir = shift;
+    my $atomstr = '';
+    my $link = $URI_SCHEME.$WEBSITE.'/';
+	
+	
+    $atomstr .= '<?xml version="1.0" encoding="utf-8" standalone="yes"?>';
+    $atomstr .= '<feed xmlns="http://www.w3.org/2005/Atom">';
+    $atomstr .='<title>'.$SITE_TITLE.'</title>';
+    $atomstr .= '<link rel="self" href="'.$link.'atom.xml"/>';
+    $atomstr .= '<link rel="alternate" href="'.$link.'"/>';
+    $atomstr .= '<id>'.$link.'</id>';
+    $atomstr .= '<updated>'.$CURTIME.'</updated>';
+    
+    
+    foreach my $hash (reverse @{$headers}) 
+    {
+	my @date_elements = split /-/, $hash->{rawdate};
+	my $tmpdate = DateTime->new(
+	    year => $date_elements[0],
+	    month => $date_elements[1],
+	    day => $date_elements[2],
+	    );
+	my $datestr = $tmpdate->datetime();
+	$atomstr .= '<entry>';
+	$atomstr .= '<title>'.$hash->{title}.'</title>';
+	$atomstr .= '<link rel="alternate" type="text/html" href="'.$hash->{permalink}.'"/>';
+	$atomstr .= '<id>'.$hash->{permalink}.'</id>';
+	$atomstr .= '<published>'.$datestr.'</published>';
+	$atomstr .= '<updated>'.$datestr.'</updated>';
+	$atomstr .= '<author><name>'.$AUTHOR.'</name></author>';
+	$atomstr .= '<content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">';
+	$atomstr .= $hash->{content};
+	$atomstr .= '</div></content></entry>'
+    }
+    
+    $atomstr .= '</feed>';
+
+    open my $fh, ">", "$outputdir/atom.xml";
+    print $fh $atomstr;
+    close $fh;
+}
+
 ########################################
 #Script Starts Here
 
@@ -411,6 +469,9 @@ $page_template = read_file("$inputdir/_templates/$PAGE_TEMPLATE_FILE");
 $post_page_template = read_file("$inputdir/_templates/$POST_PAGE_TEMPLATE_FILE");
 $MAGICK = Image::Magick->new();
 
+my $dt = DateTime->now;
+$CURTIME = $dt->iso8601();
+
 #copy simple files over
 copy_r($inputdir, $outputdir, '(^[\._]|~$)');
 
@@ -421,6 +482,8 @@ my $postref = get_posts("$inputdir/_posts");
 my $htmlposts = format_posts($postref);
 
 print_index_pg($postref, $outputdir);
+
+make_feed($postref, $outputdir);
 
 print_post_pages($postref, $htmlposts, $outputdir);
 
