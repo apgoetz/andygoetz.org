@@ -31,6 +31,7 @@ a {
 {
     margin-bottom:20px;
     margin-left:20px;
+    margin-right:20px;
 }
 .msgbody
 {
@@ -219,11 +220,6 @@ body {
     padding-top:15px;
     padding-left: 15px;
     padding-bottom: 15px;
-    border-right: 0px;
-    border-bottom: 0px;
-    border-left: 5px;
-    border-top: 0px;
-    border-style: double;
 }
 .gref a:link{color: grey; text-decoration: none;}
 .gref a:visited{color: grey; text-decoration: none;}
@@ -235,6 +231,14 @@ body {
     font-family: Georgia, Seriff;
     float:left;
     width:65%;
+    border-right: 2px;
+    border-bottom: 0px;
+    border-left: 0px;
+    border-top: 0px;
+    border-color: #eeeeee;
+    border-style: solid;
+    margin-top: 10px;
+    margin-bottom: 10px;
 
     
 }
@@ -260,6 +264,7 @@ body {
 {
     margin-top:-30px;
     font-size:12pt;
+    margin-right:20px;
     margin-left:20px;
 }
 
@@ -274,6 +279,12 @@ body {
     border-width: 5px;
 
 }
+
+.msgcontent h1, h2, h3 
+{
+    font-size: 100%;
+}
+
 .block
 {
     padding-top: 5px;

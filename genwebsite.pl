@@ -9,7 +9,6 @@ use File::Slurp qw(read_file);
 use Date::Calc qw(Date_to_Text);
 use Clone qw(clone);
 use Image::Magick;
-use XML::Atom::SimpleFeed;
 use DateTime;
 #Configuration Variables
 my $MD_GENERATOR='markdown_py';
