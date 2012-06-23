@@ -31,7 +31,7 @@ my $base_template;
 my $page_template;
 my $post_page_template;
 my $MAGICK;
-
+my $mock = '';
 ########################################
 #Subroutines
 
@@ -150,6 +150,8 @@ sub get_posts
     my $index = 1;
     foreach(@rawfiles)
     {
+
+
 	if(/(\d+-\d+-\d+)-(.+)\.md$/)
 	{
 	    my $rawdate = $1;
@@ -157,6 +159,14 @@ sub get_posts
 	    my $title = $rawtitle;
 	    $title =~s/^(.)/\U$1/;
 	    $title =~ s/-(.)/ \U$1/g;
+	    # If the title begins with an underscore...
+	    if(/^_/)
+	    {
+		# if we are mocking, just skip this file
+		next if($mock eq '');
+		# otherwise, render it, but put test in front.
+		$title = "**TEST** ".$title;
+	    }
 	    my $filename = "$rawdate-$rawtitle.html";
 	    my @dateparts = split /-/, $rawdate;
 	    my $date = Date_to_Text($dateparts[0], $dateparts[1], $dateparts[2]);
@@ -426,7 +436,6 @@ if(scalar @ARGV < 2)
 
 my $inputdir = '';
 my $outputdir = '';
-my $mock = '';
 foreach(@ARGV)
 {
     if(/^-+m/)
