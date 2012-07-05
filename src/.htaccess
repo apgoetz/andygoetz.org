@@ -1,0 +1,6 @@
+AddType text/plain .c .h
+
+ExpiresByType image/jpg "now plus 1 month"
+ExpiresByType image/jpeg "now plus 1 month"
+ExpiresByType image/png "now plus 1 month"
+ExpiresByType text/css "now plus 1 month"

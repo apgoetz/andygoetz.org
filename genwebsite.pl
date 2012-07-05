@@ -121,7 +121,7 @@ sub copy_r
 
     foreach(@files)
     {
-	unless(/($regex)/)
+	unless(/($regex)/ or /^\.\.?$/)
 	{
 	    if (-d)
 	    {
@@ -481,10 +481,10 @@ my $dt = DateTime->now;
 $CURTIME = $dt->iso8601();
 
 #copy simple files over
-copy_r($inputdir, $outputdir, '(^[\._]|~$)');
+copy_r($inputdir, $outputdir, '(^[_]|~$)');
 
 #copy post simple files over
-copy_r("$inputdir/_posts", "$outputdir", '^[\._]|(\d+-\d+-\d+)-(.+)\.md$|~$');
+copy_r("$inputdir/_posts", "$outputdir", '^[_]|(\d+-\d+-\d+)-(.+)\.md$|~$');
 my $postref = get_posts("$inputdir/_posts");
 
 my $htmlposts = format_posts($postref);
