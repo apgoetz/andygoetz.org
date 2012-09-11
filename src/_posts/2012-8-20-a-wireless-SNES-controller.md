@@ -1,3 +1,4 @@
+<meta name="keywords" content="SNES,nRF24L01p"/>
 Many classic arcade and console video games can be
 played with a D-pad. While one can use modern controllers with these
 programs, they lack the elegance of the older designs. However, if one

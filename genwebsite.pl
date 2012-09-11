@@ -37,6 +37,7 @@ my $page_template;
 my $post_page_template;
 my $MAGICK;
 my $mock = '';
+my @tags_list;
 ########################################
 #Subroutines
 
@@ -77,6 +78,16 @@ sub apply_base_template
     $fmtd_page =~ s/{title}/$title/g;
     my $urlbase = get_permalink('');
     $fmtd_page =~ s/{website}/$urlbase/g;
+
+    my $tagstr = '';
+    if(scalar(@tags_list) > 0) {
+      for(my $i = 0; $i < scalar @tags_list; $i++){
+	my $tag = $tags_list[$i];
+	$tagstr .= ', ' if($i != 0);
+	$tagstr .= "<a href='$URI_SCHEME$WEBSITE/TAG-$tag.html'>$tag</a>";
+      }
+    }
+    $fmtd_page =~ s/{alltags}/$tagstr/g;
     return $fmtd_page;
 
 }
@@ -185,6 +196,7 @@ sub get_posts
 		# otherwise, render it, but put test in front.
 		$title = "**TEST** ".$title;
 	    }
+	     
 	    my $filename = "$rawdate-$rawtitle.html";
 	    my @dateparts = split /-/, $rawdate;
 	    my $date = Date_to_Text($dateparts[0], $dateparts[1], $dateparts[2]);
@@ -192,17 +204,27 @@ sub get_posts
 	    print "Generating \"$filename\"\n";
 	    my $content = `$MD_GENERATOR $MD_ARGS $postdir/$_`;
 	    my $permalink = get_permalink("$filename");
+	    my $tags = '';
+	    if($content =~ /<\s*meta\s*name=["']keywords["']\s*content=["']([\w\s,]+)["']/i) {
+	      $tags = $1;
+	      push @tags_list, split(/[\s,]/, $tags);
+	    }
+
 	    push @postarray, { 'content' => $content,
 			       'id' => $index++,
 			       'date' => $date,
 			       'title' => $title,
 			       'rawdate' => $rawdate,
 			       'filename' => $filename,
-			       'permalink' => $permalink,			       			       
+			       'permalink' => $permalink,
+			       'tags' => $tags,
 	    };
 	    
 	}
-    }    
+    }
+
+    @tags_list = keys %{{ map {$_ => 1} @tags_list }};
+    @tags_list = (sort {lc($a) cmp lc($b)} @tags_list);
     my @sorted_posts;
     @sorted_posts = sort { Delta_Days((split /-/, $b->{rawdate}), (split /-/, $a->{rawdate})) } @postarray;
     return \@sorted_posts;
@@ -276,6 +298,14 @@ sub print_post_pages
 	}
 	$fmtd_post =~ s/{content}/$post_html/;
 
+	my @tags = split /[\s,]/, $posthash->{'tags'};
+	my $tagstr = '';
+	for(my $i = 0; $i < scalar @tags; $i++) {
+	  my $curtag = $tags[$i];
+	  $tagstr .= ", " unless ($i == 0);
+	  $tagstr .= "<a href='$URI_SCHEME$WEBSITE/TAG-$curtag.html'>$curtag</a>";
+	}
+	$fmtd_post =~ s/{tags}/$tagstr/;
 	my $fmtd_page = apply_base_template($title, $fmtd_post);
 
 	print("Writing out $filename\n");
@@ -312,7 +342,29 @@ sub print_page
     close $fh;
 }
 
+sub print_tag_pages
+{
+  my $postarray = shift;
+  my $outputdir = shift;
+  my $headers = get_headers($postarray);
+  foreach(@tags_list) {
+    my $curtag = $_;
+    my $filename = "TAG-$curtag.html";
+    my @matched_headers = grep {$_->{tags} =~ /$curtag/} @{$headers};
+    my $formatted_posts = format_posts(\@matched_headers);
+    my $numposts = scalar @matched_headers;
+    my $tag_page = '';
 
+    for(my $i = 0; $i < $numposts; $i++)
+    {
+	my $index = $numposts - 1 - $i;
+	$tag_page .= $formatted_posts->[$index];
+	
+    }
+    print "Generating $outputdir/$filename...\n";
+    print_page($postarray, "$outputdir/$filename", $tag_page, "$URI_SCHEME$WEBSITE/$filename", "Posts Tagged $curtag:");
+  }
+}
 
 sub print_pages
 {
@@ -351,14 +403,25 @@ sub print_pages
     
 }
 
-sub get_post_headers
+sub get_top_headers
+{
+
+    my $headers = get_headers(shift);
+    my $numposts = scalar @{$headers};
+    my $numshow = $MAX_FRONT < $numposts ? $MAX_FRONT : $numposts;
+    my @last_n = @{$headers}[-$numshow..-1];
+    return \@last_n;
+
+}
+
+
+sub get_headers
 {
     my $postary = clone (shift);    
     my $numposts = scalar @{$postary};
-    my $numshow = $MAX_FRONT < $numposts ? $MAX_FRONT : $numposts;
     my @newary;
 
-    for(my $i = $numposts - $numshow; $i < $numposts; $i++)
+    for(my $i = 0; $i < $numposts; $i++)
     {
 	my $permalink = $postary->[$i]->{'permalink'};
 	my $content = $postary->[$i]->{'content'};
@@ -381,7 +444,7 @@ sub print_index_pg
     my $postary = shift;
     my $outputdir = shift;
     my $index_pg = '';
-    my $shortposts = format_posts(get_post_headers($postary));
+    my $shortposts = format_posts(get_top_headers($postary));
 
     my $numposts = scalar @{$shortposts};
     for(my $i = 0; $i < $numposts; $i++)
@@ -402,7 +465,7 @@ sub print_index_pg
 
 sub make_feed 
 {
-    my $headers = get_post_headers(shift);    
+    my $headers = get_top_headers(shift);    
     my $outputdir = shift;
     my $atomstr = '';
     my $link = $URI_SCHEME.$WEBSITE.'/';
@@ -534,7 +597,8 @@ print_post_pages($postref, $htmlposts, $outputdir);
 
 print_pages($postref, "$inputdir/_pages",$outputdir);
 
-
+print "printing tag pages...\n";
+print_tag_pages($postref, $outputdir);
 
 # print archive page
 my $archive_fmt = '';

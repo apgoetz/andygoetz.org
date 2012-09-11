@@ -1,3 +1,4 @@
+<meta name="keywords" content="nRF24L01p,SPI"/>
 As part of a larger project, I recently purchased several 2.4 GHz
 wireless tranceivers based around the
 [nRF24L01+](http://www.nordicsemi.com/eng/Products/2.4GHz-RF/nRF24L01P)

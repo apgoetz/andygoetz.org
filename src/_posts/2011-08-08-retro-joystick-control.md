@@ -1,3 +1,4 @@
+<meta name="keywords" content="tutorial"/>
 Suppose you have an old joystick that you want to use to control your
 latest micro-controller project. These joysticks use a DB-15 connector
 with a readily available

@@ -1,3 +1,4 @@
+<meta name="keywords" content="ARM,PSU"/>
 Recently I took a class on Embedded Systems at Portand State
 University, and was required to program a bare metal ARM development
 board. This is a continuation of my notes on how to program the

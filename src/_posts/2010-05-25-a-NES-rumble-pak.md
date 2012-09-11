@@ -1,3 +1,4 @@
+<meta name="keywords" content="OSU,AVR,NES"/>
 Recently, I participated in Oregon State University's [Engineering
 Expo](http://engr.oregonstate.edu/expo2010/index.php). Every year,
 freshmen are encouraged to enter innovative designs based on the
