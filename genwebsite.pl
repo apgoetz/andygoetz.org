@@ -6,7 +6,7 @@ use strict;
 use File::Path qw(make_path remove_tree);
 use File::Copy;
 use File::Slurp qw(read_file);
-use Date::Calc qw(Date_to_Text);
+use Date::Calc qw(Date_to_Text Delta_Days);
 use Clone qw(clone);
 use Image::Magick;
 use DateTime;
@@ -198,11 +198,14 @@ sub get_posts
 			       'title' => $title,
 			       'rawdate' => $rawdate,
 			       'filename' => $filename,
-			       'permalink' => $permalink,			       
+			       'permalink' => $permalink,			       			       
 	    };
+	    
 	}
     }    
-    return \@postarray;
+    my @sorted_posts;
+    @sorted_posts = sort { Delta_Days((split /-/, $b->{rawdate}), (split /-/, $a->{rawdate})) } @postarray;
+    return \@sorted_posts;
 }
 
 sub get_delta_value
@@ -355,19 +358,19 @@ sub get_post_headers
     my $numshow = $MAX_FRONT < $numposts ? $MAX_FRONT : $numposts;
     my @newary;
 
-    for(my $i = 0; $i < $numshow; $i++)
+    for(my $i = $numposts - $numshow; $i < $numposts; $i++)
     {
 	my $permalink = $postary->[$i]->{'permalink'};
 	my $content = $postary->[$i]->{'content'};
 	$content = (split /<a *name=['"]more['"] *> *<\/ *a *>/i, $content)[0];
-
 	my $open_count =()= $content =~ /<\w*p\w*>/;
 	my $closed_count =()= $content =~ /<\\\w*p\w*>/;
 	$content .= '</p>' if ($open_count != $closed_count);
 	$content .= "<a class='more postfooter' href='$permalink#more'>more...</a>";	
 	push (@newary, $postary->[$i]);
-	$newary[$i]->{'content'} = $content;
+	$newary[-1]->{'content'} = $content;
     }
+
     return \@newary;
 
 }
