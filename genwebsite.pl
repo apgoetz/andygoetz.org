@@ -24,6 +24,7 @@ my $WEBSITE = 'www.andygoetz.org';
 my $AUTHOR = "Andy Goetz";
 my $URI_SCHEME='http://';
 my $SITE_TITLE = "Andy Goetz";
+my $ATOM_TITLE = "Andy Goetz: my virtual project log";
 my $POST_TEMPLATE_FILE='_post.html';
 my $POST_PAGE_TEMPLATE_FILE='_postpage.html';
 my $PAGE_TEMPLATE_FILE='_page.html';
@@ -476,7 +477,7 @@ sub make_feed
 	
     $atomstr .= '<?xml version="1.0" encoding="utf-8" standalone="yes"?>';
     $atomstr .= '<feed xmlns="http://www.w3.org/2005/Atom">';
-    $atomstr .='<title>'.$SITE_TITLE.'</title>';
+    $atomstr .='<title>'.$ATOM_TITLE.'</title>';
     $atomstr .= '<link rel="self" href="'.$link.'atom.xml"/>';
     $atomstr .= '<link rel="alternate" href="'.$link.'"/>';
     $atomstr .= '<id>'.$link.'</id>';
