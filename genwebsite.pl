@@ -211,7 +211,6 @@ sub get_posts
 	    }
 
 	    push @postarray, { 'content' => $content,
-			       'id' => $index++,
 			       'date' => $date,
 			       'title' => $title,
 			       'rawdate' => $rawdate,
@@ -227,6 +226,10 @@ sub get_posts
     @tags_list = (sort {lc($a) cmp lc($b)} @tags_list);
     my @sorted_posts;
     @sorted_posts = sort { Delta_Days((split /-/, $b->{rawdate}), (split /-/, $a->{rawdate})) } @postarray;
+    for(my $i = 0; $i < (scalar @sorted_posts); $i++)
+      {
+	$sorted_posts[$i]->{'id'} = $i + 1;
+      }
     return \@sorted_posts;
 }
 
