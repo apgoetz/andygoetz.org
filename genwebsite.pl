@@ -10,6 +10,11 @@ use Date::Calc qw(Date_to_Text);
 use Clone qw(clone);
 use Image::Magick;
 use DateTime;
+use Data::Dumper;
+use HTTP::Server::Brick;
+use HTTP::Status;
+
+
 #Configuration Variables
 my $MD_GENERATOR='markdown_py';
 my $MD_ARGS='-x mathjax';
@@ -34,6 +39,19 @@ my $MAGICK;
 my $mock = '';
 ########################################
 #Subroutines
+
+sub temp_server {
+  my $dir = shift;
+  my $port = shift;
+
+  my $server = HTTP::Server::Brick->new(port => $port);
+  
+  $server->mount( '/' => {
+			  path => $dir,
+			  });
+
+  $server->start;
+}
 
 sub get_permalink
 {
@@ -350,7 +368,6 @@ sub get_post_headers
 	push (@newary, $postary->[$i]);
 	$newary[$i]->{'content'} = $content;
     }
-
     return \@newary;
 
 }
@@ -368,7 +385,7 @@ sub print_index_pg
     {
 	my $index = $numposts - 1 - $i;
 	$index_pg .= $shortposts->[$index];
-
+	
     }
     
     my $finished_page = apply_base_template('Index', $index_pg);
@@ -442,6 +459,23 @@ foreach(@ARGV)
     {
 	$mock = 'yes';
     }
+    elsif(/^-+s/)
+    {
+      foreach(@ARGV)
+      {
+	unless(/^-+s/)
+	{
+	  my $port = 8080;
+	  print "Starting Webserver on port $port\n";
+	  temp_server($_, $port);
+	  print "Shutting down Webserver\n";
+	  exit 0;
+	}
+      }
+      print "Cannot start webserver: no source directory specified.\n";
+      print_help();
+      exit -1;
+    }
     elsif($inputdir eq '')
     {
 	$inputdir = $_;
@@ -455,13 +489,14 @@ foreach(@ARGV)
 	print_help();
 	exit(-1);
     }
+
 }
 
 unless ($mock eq '')
 {
     print "testing website...\n";
-    $URI_SCHEME = 'file://';
-    $WEBSITE = $outputdir;
+    # $URI_SCHEME = 'file://';
+     $WEBSITE = "localhost:8080";
 }
 else
 {
@@ -488,7 +523,6 @@ copy_r("$inputdir/_posts", "$outputdir", '^[_]|(\d+-\d+-\d+)-(.+)\.md$|~$');
 my $postref = get_posts("$inputdir/_posts");
 
 my $htmlposts = format_posts($postref);
-
 print_index_pg($postref, $outputdir);
 
 make_feed($postref, $outputdir);
