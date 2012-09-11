@@ -547,10 +547,12 @@ foreach(@ARGV)
     }
     elsif($inputdir eq '')
     {
+        s/\/$//;
 	$inputdir = $_;
     }
     elsif($outputdir eq '')
     {
+        s/\/$//;
 	$outputdir = $_;
     }
     else
