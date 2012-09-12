@@ -1,4 +1,4 @@
-<meta name="keywords" content="ARM,PSU"/>
+<meta name="keywords" content="ARM,PSU,tutorial"/>
 I recently took a class on Embedded systems design at PSU. In this
 class, we covered designing memory systems, serial busses, as well as
 sensors, transducers, and outputs. The labs for this class used an ARM
