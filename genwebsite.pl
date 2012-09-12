@@ -458,7 +458,7 @@ sub print_index_pg
 	
     }
     
-    my $finished_page = apply_base_template('Index', $index_pg);
+    my $finished_page = apply_base_template('my virtual project log', $index_pg);
     print "writing index page: $outputdir/index.html\n";
     open my $fh, ">", "$outputdir/index.html";
     print $fh $finished_page;    
