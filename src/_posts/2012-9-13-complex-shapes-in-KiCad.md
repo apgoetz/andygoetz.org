@@ -19,7 +19,7 @@ Below is a scan I made of the back of the Official Nintendo SNES Controller PCB:
 This picture shows the dimensions of the circuit board, without any
 distracting traces or solder pads. You can clearly see that the shape
 of this board is relatively complex: It has semicircular cutouts on 3
-of its sides. Thes cutouts wrap around plasic columns on the inside of
+of its sides. These cutouts wrap around plastic columns on the inside of
 the SNES Controller. Additionally, the top corners have angled
 cutouts. These cutouts are designed to leave just enough space for the
 trigger circuit boards to fit in. The dimensions of the above features
