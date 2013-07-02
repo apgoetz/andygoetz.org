@@ -4,3 +4,7 @@ ExpiresByType image/jpg "now plus 1 month"
 ExpiresByType image/jpeg "now plus 1 month"
 ExpiresByType image/png "now plus 1 month"
 ExpiresByType text/css "now plus 1 month"
+
+Redirect 301 /derpy https://docs.google.com/a/pdx.edu/presentation/d/1Oi3Z2lOYP_o30ediIyQg9jFiGLFdXSmgcc9Gm0VrDmk/pub#slide=id.p
+
+Redirect 301 /arm http://www.andygoetz.org/2011-05-16-a-bare-metal-ARM-environment.html
