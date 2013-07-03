@@ -8,3 +8,11 @@ Available fields:
 {prevtitle} title of previous post 
 {nexturl} permalink of next post 
 {nexttitle} title of next post
+
+required packages:
+apt-get install build-essential  libfile-slurp-perl  libdate-calc-perl libclone-perl perlmagick libdatetime-perl  python-markdown
+
+sudo perl -MCPAN -e 'CPAN::install(HTTP::Server::Brick)'
+FILE=$(python -c 'import markdown; print markdown.__path__[0]')/extensions/mathjax.py
+curl https://raw.github.com/mayoff/python-markdown-mathjax/master/mdx_mathjax.py | sudo tee $FILE
+
