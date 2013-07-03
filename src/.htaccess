@@ -8,3 +8,10 @@ ExpiresByType text/css "now plus 1 month"
 Redirect 301 /derpy https://docs.google.com/a/pdx.edu/presentation/d/1Oi3Z2lOYP_o30ediIyQg9jFiGLFdXSmgcc9Gm0VrDmk/pub#slide=id.p
 
 Redirect 301 /arm http://www.andygoetz.org/2011-05-16-a-bare-metal-ARM-environment.html
+
+Redirect 301 /post/an-nes-rumble-pak http://www.andygoetz.org/2010-05-25-a-NES-rumble-pak.html
+
+Redirect 301 /nes /2010-05-25-a-NES-rumble-pak.html
+
+Redirect 301 /capstone https://github.com/rattboi/loadframe-capstone-psu2013
+
