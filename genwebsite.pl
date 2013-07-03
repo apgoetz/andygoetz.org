@@ -20,7 +20,7 @@ my $MD_GENERATOR='markdown_py';
 my $MD_ARGS='-x mathjax';
 my $CURTIME;
 
-my $WEBSITE = 'www.andygoetz.org';
+my $WEBSITE = 'droplet.andygoetz.org';
 my $AUTHOR = "Andy Goetz";
 my $URI_SCHEME='http://';
 my $SITE_TITLE = "Andy Goetz";
