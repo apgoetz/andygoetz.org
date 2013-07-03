@@ -1,4 +1,42 @@
-Available fields:
+OVERVIEW
+
+This is my personal website. It was written (mostly) in perl, while
+calling out to python's excellent markdown compiler. 
+
+DEPENDENCIES
+
+These packages are oriented around ubuntu:
+
+nginx apt-get install build-essential libfile-slurp-perl
+libdate-calc-perl libclone-perl perlmagick libdatetime-perl
+python-markdown
+
+These commands will need to be executed in order to set up the rest of the dependencies:
+
+# Install the HTTP::Server::Brick module
+sudo perl -MCPAN -e 'CPAN::install(HTTP::Server::Brick)'
+
+# Install the mathjax extension for python-markdown
+FILE=$(python -c 'import markdown; print markdown.__path__[0]')/extensions/mathjax.py
+curl https://raw.github.com/mayoff/python-markdown-mathjax/master/mdx_mathjax.py | sudo tee $FILE
+
+
+INSTALLATION
+
+1) Install all of the required packages. Copy the 'andygoetz.org'
+nginx site config file into /etc/nginx/sites-available.
+
+2) Link the 'andygoetz.org' file to /etc/nginx/sites-enabled/andygoetz.org
+Available fields in templates:
+
+3) If you want to use the git hook to automatically update the website
+when you push to a local copy of the repo, copy the 'push-to-server'
+script to $GITDIR/hooks/post-update
+
+USAGE
+
+These are the fields that can be placed in templates:
+
 {title} The title of this post
 {permalink} Permalink to this post 
 {date} date published 
@@ -8,11 +46,3 @@ Available fields:
 {prevtitle} title of previous post 
 {nexturl} permalink of next post 
 {nexttitle} title of next post
-
-required packages:
-apt-get install build-essential  libfile-slurp-perl  libdate-calc-perl libclone-perl perlmagick libdatetime-perl  python-markdown
-
-sudo perl -MCPAN -e 'CPAN::install(HTTP::Server::Brick)'
-FILE=$(python -c 'import markdown; print markdown.__path__[0]')/extensions/mathjax.py
-curl https://raw.github.com/mayoff/python-markdown-mathjax/master/mdx_mathjax.py | sudo tee $FILE
-
