@@ -1,0 +1,20 @@
+#!/bin/bash
+
+WEBDIR=/var/www/andygoetz.org/public_html
+REPO=/home/agoetz/website-repo
+TMPDIR=$(mktemp -d)
+
+echo 'cloning the repo...'
+git clone $REPO $TMPDIR
+
+echo "CDing to $TMPDIR ..."
+pushd $TMPDIR
+
+echo "Generating the website..."
+./genwebsite.pl src $WEBDIR
+
+echo "returning..."
+popd
+
+echo "cleaning up the temporary repo"
+rm -rf $TMPDIR
