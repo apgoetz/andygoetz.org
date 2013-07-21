@@ -25,7 +25,7 @@ server {
 	index index.html index.htm;
 
 	# Make site accessible from http://localhost/
-	server_name andygoetz.org;
+	server_name www.andygoetz.org andygoetz.org;
 	
 	if ( $request_filename ~ derpy) {
 	      rewrite ^ https://docs.google.com/a/pdx.edu/presentation/d/1Oi3Z2lOYP_o30ediIyQg9jFiGLFdXSmgcc9Gm0VrDmk/pub permanent;
