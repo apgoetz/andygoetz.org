@@ -27,10 +27,10 @@ server {
 	# Make site accessible from http://localhost/
 	server_name www.andygoetz.org andygoetz.org;
 	
-	if ( $request_filename ~ derpy) {
+	if ( $request_filename ~ derpy$) {
 	      rewrite ^ https://docs.google.com/a/pdx.edu/presentation/d/1Oi3Z2lOYP_o30ediIyQg9jFiGLFdXSmgcc9Gm0VrDmk/pub permanent;
 	}
-	if ( $request_filename ~ arm) {
+	if ( $request_filename ~ arm$) {
 	      rewrite ^ http://www.andygoetz.org/2011-05-16-a-bare-metal-ARM-environment.html permanent;
 	}
         if ( $request_filename ~ loadframe$) {
@@ -39,10 +39,10 @@ server {
 	if ( $request_filename ~ post/an-nes-rumble-pak) {
 	      rewrite ^ http://www.andygoetz.org/2010-05-25-a-NES-rumble-pak.html permanent;
 	}
-	if ( $request_filename ~ nes) {
+	if ( $request_filename ~ nes$) {
 	      rewrite ^ http://www.andygoetz.org/2010-05-25-a-NES-rumble-pak.html permanent;
 	}
-	if ( $request_filename ~ capstone) {
+	if ( $request_filename ~ capstone$) {
 	      rewrite ^ https://github.com/rattboi/loadframe-capstone-psu2013 permanent;
 	}
 	# if ( $request_filename ~ ) {
